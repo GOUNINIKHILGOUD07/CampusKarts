@@ -326,6 +326,11 @@ function ProductPage() {
               </>
             )}
           </div>
+          {!isOwner && !product.is_sold && (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Chat with the seller, meet on campus and pay in person — CampusKart never charges any fees.
+            </p>
+          )}
 
           <Separator className="my-6" />
           <h2 className="text-sm font-semibold">Description</h2>
