@@ -30,13 +30,13 @@ export const Route = createFileRoute("/browse")({
       sold?: "1";
       sort?: string;
     } = {};
-    if (typeof search.q === "string") parsed.q = search.q;
-    if (typeof search.category === "string") parsed.category = search.category;
-    if (typeof search.min === "string" && search.min !== "") parsed.min = Number(search.min);
-    if (typeof search.max === "string" && search.max !== "") parsed.max = Number(search.max);
-    if (typeof search.condition === "string") parsed.condition = search.condition;
-    if (search.sold === "1") parsed.sold = "1";
-    if (typeof search.sort === "string") parsed.sort = search.sort;
+    if (typeof search["q"] === "string") parsed.q = search["q"];
+    if (typeof search["category"] === "string") parsed.category = search["category"];
+    if (typeof search["min"] === "string" && search["min"] !== "") parsed.min = Number(search["min"]);
+    if (typeof search["max"] === "string" && search["max"] !== "") parsed.max = Number(search["max"]);
+    if (typeof search["condition"] === "string") parsed.condition = search["condition"];
+    if (search["sold"] === "1") parsed.sold = "1";
+    if (typeof search["sort"] === "string") parsed.sort = search["sort"];
     return parsed;
   },
   head: () => ({
