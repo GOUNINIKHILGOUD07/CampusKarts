@@ -330,7 +330,3 @@ export function ListingForm({ listing }: { listing?: ExistingListing }) {
     </form>
   );
 }
-
-export function DeletePhotoHint() {
-  return <Trash2 className="h-4 w-4" aria-hidden="true" />;
-}
