@@ -14,10 +14,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
-    mode: typeof search.mode === "string" ? search.mode : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>) => {
+    const parsed: { redirect?: string; mode?: string } = {};
+    if (typeof search.redirect === "string") parsed.redirect = search.redirect;
+    if (typeof search.mode === "string") parsed.mode = search.mode;
+    return parsed;
+  },
   head: () => ({
     meta: [
       { title: "Sign in · CampusKart" },
