@@ -39,8 +39,8 @@ export function ReportDialog({
 }) {
   const { userId } = useAuth();
   const [open, setOpen] = React.useState(false);
-  const [reason, setReason] = useState<string>("");
-  const [details, setDetails] = useState("");
+  const [reason, setReason] = React.useState<string>("");
+  const [details, setDetails] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
 
   async function submit(e: React.FormEvent) {
@@ -130,5 +130,3 @@ export function ReportDialog({
     </Dialog>
   );
 }
-
-export { signedOutLabel };
