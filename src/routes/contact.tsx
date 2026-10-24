@@ -53,8 +53,13 @@ function ContactPage() {
       return;
     }
     setSending(true);
-    const { error } = await supabase.from("support_messages").insert({
-      user_id: userId ?? null,
+    // The support table is created with the schema; the generated client types
+    // don't include it yet, so go through a narrow local type.
+    const inbox = supabase.from("support_messages") as unknown as {
+      insert: (values: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
+    };
+    const { error } = await inbox.insert({
+      user_id: userId ?? undefined,
       topic,
       reply_email: email.trim() || null,
       message: trimmed,

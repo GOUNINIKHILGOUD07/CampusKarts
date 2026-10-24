@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Heart, HeartX } from "lucide-react";
+import { Heart, HeartOff } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -43,14 +43,13 @@ function WishlistPage() {
       return (data ?? []).map((r) => {
         const row = r as unknown as {
           product_id: string;
-          product: (Omit<ProductCardData, "id"> & { category: { name: string } | null; images: { url: string }[] }) | null;
+          product: (ProductCardData & { category: { name: string } | null; images: { url: string }[] }) | null;
         };
         if (!row.product) return null;
         return {
           wishlistProductId: row.product_id,
           card: {
             ...row.product,
-            id: row.product.id,
             category_name: row.product.category?.name ?? null,
             image_path: row.product.images?.[0]?.url ?? null,
           } as ProductCardData,
@@ -99,7 +98,7 @@ function WishlistPage() {
                   className="mt-2 w-full"
                   onClick={() => removeFromWishlist(card.id)}
                 >
-                  <HeartX className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" /> Remove
+                  <HeartOff className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" /> Remove
                 </Button>
               </div>
             ))}

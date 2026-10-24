@@ -262,7 +262,7 @@ export function ListingForm({ listing }: { listing?: ExistingListing }) {
           />
         </div>
       </div>
-      {condition && <p className="-mt-3 text-xs text-muted-foreground">{CONDITION_DESCRIPTIONS[condition]}</p>}
+      {condition && <p className="-mt-3 text-xs text-muted-foreground">{CONDITION_DESCRIPTIONS[condition as keyof typeof CONDITION_DESCRIPTIONS]}</p>}
 
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="listing-description">Description</Label>
