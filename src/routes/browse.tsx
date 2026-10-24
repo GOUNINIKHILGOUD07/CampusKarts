@@ -91,7 +91,7 @@ function useProducts(search: ReturnType<typeof Route.useSearch>) {
       if (typeof search.min === "number" && !Number.isNaN(search.min)) query = query.gte("price", search.min);
       if (typeof search.max === "number" && !Number.isNaN(search.max)) query = query.lte("price", search.max);
       if (search.condition) {
-        const list = search.condition.split(",").filter((c) => (CONDITIONS as readonly string[]).includes(c));
+        const list = search.condition.split(",").filter((c: string) => (CONDITIONS as readonly string[]).includes(c));
         if (list.length > 0) query = query.in("condition", list);
       }
 
