@@ -1,8 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, ShieldAlert, ShieldCheck, UserX } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { hasRole } from "@/lib/roles";
 import { Button } from "@/components/ui/button";
@@ -166,5 +166,3 @@ function StatCard({ label, value }: { label: string; value: number }) {
     </div>
   );
 }
-
-export const __createClient = createClient;
