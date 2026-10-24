@@ -55,9 +55,10 @@ function ContactPage() {
     setSending(true);
     // The support table is created with the schema; the generated client types
     // don't include it yet, so go through a narrow local type.
-    const inbox = supabase.from("support_messages") as unknown as {
-      insert: (values: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
-    };
+    const from = supabase.from as unknown as (
+      table: string,
+    ) => { insert: (values: Record<string, unknown>) => Promise<{ error: { message: string } | null }> };
+    const inbox = from("support_messages");
     const { error } = await inbox.insert({
       user_id: userId ?? undefined,
       topic,

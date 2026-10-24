@@ -150,7 +150,7 @@ function AdminPage() {
             ))}
           </div>
         ) : (
-          <EmptyState icon={UserX} title="No members yet" className="mt-3" />
+          <EmptyState icon={UserX} title="No members yet" description="New sign-ups will appear here." className="mt-3" />
         )}
       </section>
     </div>
