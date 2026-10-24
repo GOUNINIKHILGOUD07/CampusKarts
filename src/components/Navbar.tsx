@@ -198,10 +198,11 @@ function NotificationsBell() {
 }
 
 function UserMenu() {
-  const { profile, isAdmin, signOut } = useAuth();
-  const displayName = profile?.display_name ?? "Student";
+  const { profile, email, isAdmin, signOut } = useAuth();
+  const emailPrefix = email ? email.split("@")[0] : null;
+  const displayName = profile?.display_name ?? emailPrefix ?? "Account";
   const initials = displayName
-    .split(/\s+/)
+    .split(/[\s._-]+/)
     .map((w) => w[0])
     .filter(Boolean)
     .slice(0, 2)
@@ -215,7 +216,7 @@ function UserMenu() {
           <Avatar className="h-8 w-8">
             {profile?.avatar_url && <AvatarImage src={profile.avatar_url} alt={displayName} />}
             <AvatarFallback className="bg-secondary text-xs font-semibold text-secondary-foreground">
-              {initials || "S"}
+              {initials || "C"}
             </AvatarFallback>
           </Avatar>
         </button>

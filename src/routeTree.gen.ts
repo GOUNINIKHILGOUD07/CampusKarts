@@ -26,8 +26,8 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedWishlistRouteImport } from './routes/_authenticated/wishlist'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 import { Route as SellerIdRouteImport } from './routes/seller.$id'
-import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
-import { Route as AuthenticatedSellEditIdRouteImport } from './routes/_authenticated/sell.edit.$id'
+import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages_.$id'
+import { Route as AuthenticatedSellEditIdRouteImport } from './routes/_authenticated/sell_.edit.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -115,14 +115,14 @@ const SellerIdRoute = SellerIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AuthenticatedMessagesRoute,
+  id: '/messages_/$id',
+  path: '/messages/$id',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedSellEditIdRoute = AuthenticatedSellEditIdRouteImport.update({
-  id: '/edit/$id',
-  path: '/edit/$id',
-  getParentRoute: () => AuthenticatedSellRoute,
+  id: '/sell_/edit/$id',
+  path: '/sell/edit/$id',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -135,9 +135,9 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/messages': typeof AuthenticatedMessagesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
-  '/sell': typeof AuthenticatedSellRouteWithChildren
+  '/sell': typeof AuthenticatedSellRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/wishlist': typeof AuthenticatedWishlistRoute
   '/product/$id': typeof ProductIdRoute
@@ -155,9 +155,9 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/messages': typeof AuthenticatedMessagesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
-  '/sell': typeof AuthenticatedSellRouteWithChildren
+  '/sell': typeof AuthenticatedSellRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/wishlist': typeof AuthenticatedWishlistRoute
   '/product/$id': typeof ProductIdRoute
@@ -177,15 +177,15 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/messages': typeof AuthenticatedMessagesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
-  '/_authenticated/sell': typeof AuthenticatedSellRouteWithChildren
+  '/_authenticated/sell': typeof AuthenticatedSellRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/wishlist': typeof AuthenticatedWishlistRoute
   '/product/$id': typeof ProductIdRoute
   '/seller/$id': typeof SellerIdRoute
-  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
-  '/_authenticated/sell/edit/$id': typeof AuthenticatedSellEditIdRoute
+  '/_authenticated/messages_/$id': typeof AuthenticatedMessagesIdRoute
+  '/_authenticated/sell_/edit/$id': typeof AuthenticatedSellEditIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -247,8 +247,8 @@ export interface FileRouteTypes {
     | '/_authenticated/wishlist'
     | '/product/$id'
     | '/seller/$id'
-    | '/_authenticated/messages/$id'
-    | '/_authenticated/sell/edit/$id'
+    | '/_authenticated/messages_/$id'
+    | '/_authenticated/sell_/edit/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -385,65 +385,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/messages/$id': {
-      id: '/_authenticated/messages/$id'
-      path: '/$id'
+    '/_authenticated/messages_/$id': {
+      id: '/_authenticated/messages_/$id'
+      path: '/messages/$id'
       fullPath: '/messages/$id'
       preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
-      parentRoute: typeof AuthenticatedMessagesRoute
+      parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/sell/edit/$id': {
-      id: '/_authenticated/sell/edit/$id'
-      path: '/edit/$id'
+    '/_authenticated/sell_/edit/$id': {
+      id: '/_authenticated/sell_/edit/$id'
+      path: '/sell/edit/$id'
       fullPath: '/sell/edit/$id'
       preLoaderRoute: typeof AuthenticatedSellEditIdRouteImport
-      parentRoute: typeof AuthenticatedSellRoute
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
-interface AuthenticatedMessagesRouteChildren {
-  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
-}
-
-const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
-  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
-}
-
-const AuthenticatedMessagesRouteWithChildren =
-  AuthenticatedMessagesRoute._addFileChildren(
-    AuthenticatedMessagesRouteChildren,
-  )
-
-interface AuthenticatedSellRouteChildren {
-  AuthenticatedSellEditIdRoute: typeof AuthenticatedSellEditIdRoute
-}
-
-const AuthenticatedSellRouteChildren: AuthenticatedSellRouteChildren = {
-  AuthenticatedSellEditIdRoute: AuthenticatedSellEditIdRoute,
-}
-
-const AuthenticatedSellRouteWithChildren =
-  AuthenticatedSellRoute._addFileChildren(AuthenticatedSellRouteChildren)
-
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
-  AuthenticatedSellRoute: typeof AuthenticatedSellRouteWithChildren
+  AuthenticatedSellRoute: typeof AuthenticatedSellRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedWishlistRoute: typeof AuthenticatedWishlistRoute
+  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
+  AuthenticatedSellEditIdRoute: typeof AuthenticatedSellEditIdRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
-  AuthenticatedSellRoute: AuthenticatedSellRouteWithChildren,
+  AuthenticatedSellRoute: AuthenticatedSellRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedWishlistRoute: AuthenticatedWishlistRoute,
+  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
+  AuthenticatedSellEditIdRoute: AuthenticatedSellEditIdRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

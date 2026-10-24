@@ -8,6 +8,7 @@ type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 interface AuthContextValue {
   userId: string | null;
+  email: string | null;
   profile: Profile | null;
   isAdmin: boolean;
   /** True until the first session lookup completes. */
@@ -28,12 +29,14 @@ export function AuthProvider({
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [userId, setUserId] = React.useState<string | null>(null);
+  const [email, setEmail] = React.useState<string | null>(null);
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
-  const loadForUser = React.useCallback(async (uid: string | null) => {
+  const loadForUser = React.useCallback(async (uid: string | null, userEmail: string | null = null) => {
     setUserId(uid);
+    setEmail(uid ? userEmail : null);
     if (!uid) {
       setProfile(null);
       setIsAdmin(false);
@@ -52,7 +55,9 @@ export function AuthProvider({
 
     supabase.auth
       .getSession()
-      .then(({ data }) => loadForUser(data.session?.user?.id ?? null))
+      .then(({ data }) => {
+        void loadForUser(data.session?.user?.id ?? null, data.session?.user?.email ?? null);
+      })
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
@@ -60,7 +65,7 @@ export function AuthProvider({
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       const uid = session?.user?.id ?? null;
-      loadForUser(uid);
+      void loadForUser(uid, session?.user?.email ?? null);
       onSessionChange?.();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
     });
@@ -76,6 +81,7 @@ export function AuthProvider({
     queryClient.clear();
     await supabase.auth.signOut();
     setUserId(null);
+    setEmail(null);
     setProfile(null);
     setIsAdmin(false);
     navigate({ to: "/auth", replace: true });
@@ -84,13 +90,14 @@ export function AuthProvider({
   const value = React.useMemo<AuthContextValue>(
     () => ({
       userId,
+      email,
       profile,
       isAdmin,
       loading,
       refreshProfile: () => loadForUser(userId),
       signOut,
     }),
-    [userId, profile, isAdmin, loading, loadForUser, signOut],
+    [userId, email, profile, isAdmin, loading, loadForUser, signOut],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

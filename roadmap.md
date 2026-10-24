@@ -13,7 +13,7 @@
 
 ## In progress
 - [ ] Reset-password page (linked from sign-in)
-- [ ] Tests + end-to-end verification (auth, listing, filters, wishlist, messaging, admin)
+- [ ] Wishlist E2E (needs a buyer account; verified: signup, listing, category filters, buy chat, message persistence across sign-out/sign-in, seller notifications)
 
 ## Notes
 - First registered account automatically becomes admin (database trigger).

@@ -1,5 +1,20 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792831690726,
+      "tag": "0000_restore_auth_user_trigger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792853546940,
+      "tag": "0001_restore_auth_user_trigger",
+      "breakpoints": true
+    }
+  ]
 }
