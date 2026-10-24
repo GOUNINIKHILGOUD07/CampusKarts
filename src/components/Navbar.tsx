@@ -332,7 +332,7 @@ export function Navbar() {
                 <Link to="/auth">Log in</Link>
               </Button>
               <Button asChild size="sm">
-                <Link to="/auth?mode=signup">Sign up</Link>
+                <Link to="/auth" search={{ mode: "signup" }}>Sign up</Link>
               </Button>
             </>
           )}
@@ -409,7 +409,7 @@ export function Navbar() {
                         </Link>
                       </Button>
                       <Button asChild>
-                        <Link to="/auth?mode=signup" onClick={() => setMobileOpen(false)}>
+                        <Link to="/auth" search={{ mode: "signup" }} onClick={() => setMobileOpen(false)}>
                           Sign up
                         </Link>
                       </Button>
