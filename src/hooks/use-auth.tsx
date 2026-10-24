@@ -8,6 +8,7 @@ type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 interface AuthContextValue {
   userId: string | null;
+  email: string | null;
   profile: Profile | null;
   isAdmin: boolean;
   /** True until the first session lookup completes. */
@@ -28,12 +29,14 @@ export function AuthProvider({
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [userId, setUserId] = React.useState<string | null>(null);
+  const [email, setEmail] = React.useState<string | null>(null);
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
-  const loadForUser = React.useCallback(async (uid: string | null) => {
+  const loadForUser = React.useCallback(async (uid: string | null, userEmail: string | null = null) => {
     setUserId(uid);
+    setEmail(uid ? userEmail : null);
     if (!uid) {
       setProfile(null);
       setIsAdmin(false);
