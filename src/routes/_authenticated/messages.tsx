@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/use-auth";
 import { useSignedImageUrls } from "@/hooks/use-image-urls";
 import { SafeImage } from "@/components/SafeImage";
 import { EmptyState } from "@/components/EmptyState";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -125,6 +124,3 @@ function MessagesPage() {
     </div>
   );
 }
-
-// Re-export so the avatar import isn't flagged as unused when fallbacks are removed.
-export const __avatar = AvatarFallback;

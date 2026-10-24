@@ -1,4 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,5 +28,3 @@ export function useRealtimeConversations(userId: string | null) {
     };
   }, [userId, queryClient]);
 }
-
-export const __createClient = createClient;
