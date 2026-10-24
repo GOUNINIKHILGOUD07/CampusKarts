@@ -19,6 +19,7 @@ import { Route as AuthenticatedSellRouteImport } from './routes/_authenticated/s
 import { Route as AuthenticatedWishlistRouteImport } from './routes/_authenticated/wishlist'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 import { Route as SellerIdRouteImport } from './routes/seller.$id'
+import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
 import { Route as AuthenticatedSellEditIdRouteImport } from './routes/_authenticated/sell.edit.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -70,6 +71,11 @@ const SellerIdRoute = SellerIdRouteImport.update({
   path: '/seller/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedMessagesRoute,
+} as any)
 const AuthenticatedSellEditIdRoute = AuthenticatedSellEditIdRouteImport.update({
   id: '/edit/$id',
   path: '/edit/$id',
@@ -81,11 +87,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/browse': typeof BrowseRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/messages': typeof AuthenticatedMessagesRoute
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/sell': typeof AuthenticatedSellRouteWithChildren
   '/wishlist': typeof AuthenticatedWishlistRoute
   '/product/$id': typeof ProductIdRoute
   '/seller/$id': typeof SellerIdRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/sell/edit/$id': typeof AuthenticatedSellEditIdRoute
 }
 export interface FileRoutesByTo {
@@ -93,11 +100,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/browse': typeof BrowseRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/messages': typeof AuthenticatedMessagesRoute
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/sell': typeof AuthenticatedSellRouteWithChildren
   '/wishlist': typeof AuthenticatedWishlistRoute
   '/product/$id': typeof ProductIdRoute
   '/seller/$id': typeof SellerIdRoute
+  '/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/sell/edit/$id': typeof AuthenticatedSellEditIdRoute
 }
 export interface FileRoutesById {
@@ -107,11 +115,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/browse': typeof BrowseRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/sell': typeof AuthenticatedSellRouteWithChildren
   '/_authenticated/wishlist': typeof AuthenticatedWishlistRoute
   '/product/$id': typeof ProductIdRoute
   '/seller/$id': typeof SellerIdRoute
+  '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
   '/_authenticated/sell/edit/$id': typeof AuthenticatedSellEditIdRoute
 }
 export interface FileRouteTypes {
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/product/$id'
     | '/seller/$id'
+    | '/messages/$id'
     | '/sell/edit/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/product/$id'
     | '/seller/$id'
+    | '/messages/$id'
     | '/sell/edit/$id'
   id:
     | '__root__'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/_authenticated/wishlist'
     | '/product/$id'
     | '/seller/$id'
+    | '/_authenticated/messages/$id'
     | '/_authenticated/sell/edit/$id'
   fileRoutesById: FileRoutesById
 }
@@ -235,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellerIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/messages/$id': {
+      id: '/_authenticated/messages/$id'
+      path: '/$id'
+      fullPath: '/messages/$id'
+      preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
+      parentRoute: typeof AuthenticatedMessagesRoute
+    }
     '/_authenticated/sell/edit/$id': {
       id: '/_authenticated/sell/edit/$id'
       path: '/edit/$id'
@@ -244,6 +263,19 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedMessagesRouteChildren {
+  AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
+}
+
+const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
+  AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
+}
+
+const AuthenticatedMessagesRouteWithChildren =
+  AuthenticatedMessagesRoute._addFileChildren(
+    AuthenticatedMessagesRouteChildren,
+  )
 
 interface AuthenticatedSellRouteChildren {
   AuthenticatedSellEditIdRoute: typeof AuthenticatedSellEditIdRoute
@@ -258,14 +290,14 @@ const AuthenticatedSellRouteWithChildren =
 
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedSellRoute: typeof AuthenticatedSellRouteWithChildren
   AuthenticatedWishlistRoute: typeof AuthenticatedWishlistRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedSellRoute: AuthenticatedSellRouteWithChildren,
   AuthenticatedWishlistRoute: AuthenticatedWishlistRoute,
 }
