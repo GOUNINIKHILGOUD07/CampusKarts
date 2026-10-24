@@ -163,6 +163,12 @@ function ProductPage() {
       toast.error("Could not start the conversation. Please try again.");
       return;
     }
+    // Start the chat with a ready-made opener so the seller immediately sees the item being asked about.
+    await supabase.from("messages").insert({
+      conversation_id: data.id,
+      sender_id: userId,
+      body: `Hi! Is "${product.title}" still available?`,
+    });
     navigate({ to: "/messages/$id", params: { id: data.id } });
   }
 
@@ -271,7 +277,7 @@ function ProductPage() {
           <div className="mt-4 flex flex-wrap gap-2">
             {!isOwner && !product.is_sold && (
               <Button onClick={startConversation} disabled={authLoading}>
-                <MessageSquare className="mr-1.5 h-4 w-4" aria-hidden="true" /> Message seller
+                <MessageSquare className="mr-1.5 h-4 w-4" aria-hidden="true" /> Chat with seller
               </Button>
             )}
             {!isOwner && (
