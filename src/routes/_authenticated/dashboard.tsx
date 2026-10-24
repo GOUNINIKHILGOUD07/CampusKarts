@@ -4,7 +4,6 @@ import { PackageCheck, Package, Pencil, Trash2, Tag } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { ProductCard, ProductGrid, type ProductCardData } from "@/components/ProductCard";
 import { EmptyState } from "@/components/EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -187,6 +186,3 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string
     </div>
   );
 }
-
-// Keep ProductGrid import used for the skeleton layout.
-export const __grid = ProductGrid;
