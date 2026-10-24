@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SafeImage } from "@/components/SafeImage";
+
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -18,7 +18,6 @@ export const Route = createFileRoute("/privacy")({
 function PrivacyPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <SafeImage src="https://id-preview--a2d6de70-b495-44e1-aafe-7e0cea2a5b1c.lovable.app/og-image.png" alt="" className="hidden" />
       <h1 className="text-3xl font-bold tracking-tight">Privacy policy</h1>
       <p className="mt-2 text-sm text-muted-foreground">Last updated: January 2026</p>
 
