@@ -130,5 +130,3 @@ export function ReportDialog({
     </Dialog>
   );
 }
-
-export { signedOutLabel };

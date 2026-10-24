@@ -20,15 +20,25 @@ import { ProductCard, ProductGrid, type ProductCardData } from "@/components/Pro
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/browse")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search.q === "string" ? search.q : undefined,
-    category: typeof search.category === "string" ? search.category : undefined,
-    min: typeof search.min === "string" && search.min !== "" ? Number(search.min) : undefined,
-    max: typeof search.max === "string" && search.max !== "" ? Number(search.max) : undefined,
-    condition: typeof search.condition === "string" ? search.condition : undefined,
-    sold: search.sold === "1" ? "1" : undefined,
-    sort: typeof search.sort === "string" ? search.sort : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>) => {
+    const parsed: {
+      q?: string;
+      category?: string;
+      min?: number;
+      max?: number;
+      condition?: string;
+      sold?: "1";
+      sort?: string;
+    } = {};
+    if (typeof search.q === "string") parsed.q = search.q;
+    if (typeof search.category === "string") parsed.category = search.category;
+    if (typeof search.min === "string" && search.min !== "") parsed.min = Number(search.min);
+    if (typeof search.max === "string" && search.max !== "") parsed.max = Number(search.max);
+    if (typeof search.condition === "string") parsed.condition = search.condition;
+    if (search.sold === "1") parsed.sold = "1";
+    if (typeof search.sort === "string") parsed.sort = search.sort;
+    return parsed;
+  },
   head: () => ({
     meta: [
       { title: "Browse products · CampusKart" },
