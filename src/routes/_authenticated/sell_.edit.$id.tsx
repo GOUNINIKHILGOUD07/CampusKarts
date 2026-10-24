@@ -6,7 +6,7 @@ import { ListingForm, type ExistingListing } from "@/components/ListingForm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/_authenticated/sell/edit/$id")({
+export const Route = createFileRoute("/_authenticated/sell_/edit/$id")({
   head: () => ({
     meta: [
       { title: "Edit listing · CampusKart" },

@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export const Route = createFileRoute("/_authenticated/messages/$id")({
+export const Route = createFileRoute("/_authenticated/messages_/$id")({
   ssr: false,
   head: () => ({
     meta: [
